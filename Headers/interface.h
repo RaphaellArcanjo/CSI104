@@ -29,5 +29,11 @@ void op_listar_produtos_por_fornecedor(FILE *arq_f, FILE *arq_p);
 
 void op_atualizar_preco_produto(FILE *arq_p);
 
+//PARTE 2
+void op_gerar_particoes(FILE *arq_p);
+
+void op_intercalacao_otima(FILE *arq_p);
+
+void op_analise_experimental(FILE *arq_p);
 
 #endif

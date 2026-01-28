@@ -42,4 +42,7 @@ void imprimir_base_produto(FILE *out);
 //Retorna a quantidade de registros no arquivo
 int tamanho_arquivo_produto(FILE *arq);
 
+//PARTE 2
+int le_produto_no_heap(FILE *in, TProduto *prod);
+
 #endif

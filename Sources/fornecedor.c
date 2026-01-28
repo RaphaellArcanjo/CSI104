@@ -79,9 +79,9 @@ void criar_base_fornecedor(FILE *out, int tam){
     for (int i=0;i<tam;i++){
         f = fornecedor(vet[i], "NOME DA EMPRESA", "XX.XXX.XXX/YYYY-ZZ");
         salva_fornecedor(f, out);
+        free(f); // Libera a memoria do fornecedor apos salva-lo
     }
 
-    free(f);
     free(vet);
 }
 
@@ -94,7 +94,7 @@ void embaralha_fornecedor(int *vet, int tam) {
 
     int trocas = (tam*60)/100;
 
-    for (int t = 1; t<trocas; t++) {
+    for (int t = 0; t < trocas; t++) {
         int i = rand() % tam;
         int j = rand() % tam;
         tmp = vet[i];
@@ -111,10 +111,10 @@ void imprimir_base_fornecedor(FILE *out){
     rewind(out);
     TFornecedor *f;
 
-    while ((f = le_fornecedor(out)) != NULL)
+    while ((f = le_fornecedor(out)) != NULL) {
         imprime_fornecedor(f);
-
-    free(f);
+        free(f);
+    }
 }
 
 int tamanho_arquivo_fornecedor(FILE *arq) {

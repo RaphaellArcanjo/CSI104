@@ -87,7 +87,7 @@ void criar_base_produto(FILE *out, int tam, int num_fornecedores){
     printf("\nGerando a base de dados de produtos...\n");
 
     if (num_fornecedores <= 0) {
-        printf("AVISO: Nao ha fornecedores para linkar. Os produtos serao criados com ID Fornecedor 0.\n");
+        //printf("AVISO: Nao ha fornecedores para linkar. Os produtos serao criados com ID Fornecedor 0.\n");
     }
 
     for (int i=0;i<tam;i++){
@@ -105,9 +105,9 @@ void criar_base_produto(FILE *out, int tam, int num_fornecedores){
         p = produto(vet[i], "NOME DO PRODUTO", preco_aleatorio, estoque_aleatorio, id_forn_aleatorio);
 
         salva_produto(p, out);
+        free(p); // Libera a memoria do produto apos salva-lo no arquivo
     }
 
-    free(p);
     free(vet);
 }
 
@@ -120,7 +120,7 @@ void embaralha_produto(int *vet, int tam) {
 
     int trocas = (tam*60)/100;
 
-    for (int t = 1; t<trocas; t++) {
+    for (int t = 0; t < trocas; t++) {
         int i = rand() % tam;
         int j = rand() % tam;
         tmp = vet[i];
@@ -136,14 +136,29 @@ void imprimir_base_produto(FILE *out){
     rewind(out);
     TProduto *p;
 
-    while ((p = le_produto(out)) != NULL)
+    while ((p = le_produto(out)) != NULL) {
         imprime_produto(p);
-
-    free(p);
+        free(p); // Libera a memoria do produto apos imprimi-lo
+    }
 }
 
 int tamanho_arquivo_produto(FILE *arq) {
     fseek(arq, 0, SEEK_END);
     int tam = trunc(ftell(arq) / tamanho_registro_produto());
     return tam;
+}
+
+//PARTE 2
+
+// Funcao auxiliar para ler direto num ponteiro ja alocado
+// Retorna 1 se leu com sucesso, 0 se acabou o arquivo
+int le_produto_no_heap(FILE *in, TProduto *prod) {
+    if (0 >= fread(&prod->id_produto, sizeof(int), 1, in)) {
+        return 0;
+    }
+    fread(prod->nome_produto, sizeof(char), 50, in);
+    fread(&prod->preco, sizeof(double), 1, in);
+    fread(&prod->estoque, sizeof(int), 1, in);
+    fread(&prod->id_fornecedor, sizeof(int), 1, in);
+    return 1;
 }

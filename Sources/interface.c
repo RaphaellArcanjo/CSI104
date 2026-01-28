@@ -3,6 +3,8 @@
 #include <time.h>
 
 #include "interface.h"
+
+#include "analise.h"
 #include "fornecedor.h"
 #include "produto.h"
 #include "selectionSort.h"
@@ -10,6 +12,8 @@
 #include "buscaSequencialProduto.h"
 #include "buscaBinariaFornecedor.h"
 #include "buscaBinariaProduto.h"
+#include "intercalacao.h"
+#include "particoes.h"
 
 
 void MSG_MENU() {
@@ -23,6 +27,10 @@ void MSG_MENU() {
     printf("5. Busca Binaria\n");
     printf("6. Listar Produtos por Fornecedor\n");
     printf("7. Atualizar Preco de Produto\n");
+    //PARTE 2
+    printf("8. Gerar Particoes (Selecao por Substituicao)\n");
+    printf("9. Intercalacao Otima (Juntar Particoes)\n");
+    printf("10. Analise\n");
     printf("0. Sair\n");
     printf("===========================================================\n");
     printf("Escolha uma opcao: ");
@@ -409,4 +417,65 @@ void op_atualizar_preco_produto(FILE *arq_p) {
     } else {
         printf("\nERRO: Produto com ID %d nao encontrado.\n", id_busca);
     }
+}
+
+//PARTE 2
+
+//case8
+void op_gerar_particoes(FILE *arq_p) {
+    if (arq_p == NULL) {
+        printf("ERRO: Voce precisa gerar a base de dados primeiro.\n");
+        return;
+    }
+
+    printf("--- Gerar Particoes Ordenadas ---\n");
+    printf("Digite o tamanho da memoria (M) para o Heap (ex: 6): ");
+    int M;
+    scanf("%d", &M);
+    limpa_buffer_stdin();
+
+    if (M < 2) {
+        printf("Erro: O tamanho da memoria deve ser pelo menos 2.\n");
+        return;
+    }
+
+    selecao_substituicao(arq_p, "particao", M);
+}
+
+//case 9
+void op_intercalacao_otima(FILE *arq_p) {
+
+    printf("--- Intercalacao Otima ---\n");
+    printf("Esta opcao vai procurar por arquivos 'particao1.dat', 'particao2.dat'...\n");
+    printf("E gerar um arquivo final 'produtos_ordenados.dat'.\n\n");
+
+    FILE *teste = fopen("particao1.dat", "rb");
+    if (!teste) {
+        printf("ERRO: Nenhuma particao encontrada. Rode a Opcao 8 primeiro.\n");
+        return;
+    }
+    fclose(teste);
+
+    intercalacao_otima("particao", "produtos_ordenados.dat");
+
+    printf("\nDeseja substituir a base oficial 'produtos.dat' pelo arquivo ordenado? (1-Sim / 0-Nao): ");
+    int resp;
+    scanf("%d", &resp);
+    limpa_buffer_stdin();
+
+    if (resp == 1) {
+        if (arq_p) fclose(arq_p);
+
+        remove(ARQUIVO_PRODUTOS);
+        rename("produtos_ordenados.dat", ARQUIVO_PRODUTOS);
+
+        printf("Base de dados oficial atualizada e ordenada!\n");
+        printf("NOTA: A base foi reaberta automaticamente pelo sistema.\n");
+    }
+
+}
+
+//case 10
+void op_analise_experimental(FILE *arq_p) {
+    realizar_analise_experimental(NULL);
 }

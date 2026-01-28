@@ -14,6 +14,7 @@ TProduto *busca_sequencial_produto(int chave, FILE *in, int *comparacao){
         if(p->id_produto == chave){
            return p;
         }
+        free(p);
     }
     return NULL;
 }

@@ -1,5 +1,4 @@
 #include "fornecedor.h"
-#include <string.h>
 #include <stdlib.h>
 
 //Realiza uma busca sequencial por um fornecedor na base de dados
@@ -15,6 +14,7 @@ TFornecedor *busca_sequencial_fornecedor(int chave, FILE *in, int *comparacao){
         if(f->id_fornecedor == chave){
            return f;
         }
+        free(f);
     }
     return NULL;
 }

@@ -54,6 +54,29 @@ int main() {
                 op_atualizar_preco_produto(arq_produtos);
                 pausa();
                 break;
+            //PARTE 2
+            case 8:
+                limpa_tela();
+                op_gerar_particoes(arq_produtos);
+                pausa();
+                break;
+            case 9:
+                limpa_tela();
+                if (arq_produtos) { fclose(arq_produtos); arq_produtos = NULL; }
+
+                op_intercalacao_otima(arq_produtos);
+
+                arq_produtos = fopen(ARQUIVO_PRODUTOS, "r+b");
+                if (!arq_produtos) {
+                    printf("Aviso: Base de produtos fechada ou inexistente.\n");
+                }
+                pausa();
+                break;
+            case 10:
+                limpa_tela();
+                op_analise_experimental(arq_produtos);
+                pausa();
+                break;
             case 0:
                 printf("Saindo do sistema...\n");
                 break;
