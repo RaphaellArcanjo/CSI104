@@ -1,15 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "interface.h"
 
 int main() {
+    srand(time(NULL)); // Inicializa a semente do gerador aleatório UMA VEZ.
+
     FILE *arq_fornecedores = NULL;
     FILE *arq_produtos = NULL;
+    FILE *arq_hash = NULL;
+
+    int M_hash = 0;
     int op = -1;
 
     arq_fornecedores = fopen(ARQUIVO_FORNECEDORES, "r+b");
     arq_produtos = fopen(ARQUIVO_PRODUTOS, "r+b");
+    arq_hash = fopen("tabela_hash.dat", "r+b");
 
     do {
         limpa_tela();
@@ -21,7 +28,7 @@ int main() {
             case 1:
                 limpa_tela();
                 //passa o endereco dos ponteiros
-                op_gerar_base(&arq_fornecedores, &arq_produtos);
+                op_gerar_base(&arq_fornecedores, &arq_produtos, &arq_hash, &M_hash);
                 pausa();
                 break;
             case 2:
@@ -77,6 +84,12 @@ int main() {
                 op_analise_experimental(arq_produtos);
                 pausa();
                 break;
+            //PARTE 3
+            case 11:
+                limpa_tela();
+                // Passamos o endereço (&) para poder abrir/fechar dentro da função
+                op_tabela_hash(&arq_hash, &M_hash);
+                break;
             case 0:
                 printf("Saindo do sistema...\n");
                 break;
@@ -94,6 +107,9 @@ int main() {
     }
     if (arq_produtos) {
         fclose(arq_produtos);
+    }
+    if (arq_hash) {
+        fclose(arq_hash);
     }
 
     return 0;

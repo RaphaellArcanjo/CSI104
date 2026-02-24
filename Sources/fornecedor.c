@@ -90,8 +90,6 @@ void embaralha_fornecedor(int *vet, int tam) {
 
     int tmp;
 
-    srand(time(NULL));
-
     int trocas = (tam*60)/100;
 
     for (int t = 0; t < trocas; t++) {

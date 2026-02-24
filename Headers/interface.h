@@ -15,7 +15,7 @@ void limpa_buffer_stdin();
 void pausa();
 
 // op_gerar_base precisa de ponteiro-para-ponteiro (**); para poder fechar e reabrir os arquivos do main.
-void op_gerar_base(FILE **arq_f, FILE **arq_p);
+void op_gerar_base(FILE **arq_f, FILE **arq_p, FILE **arq_h, int *M);;
 
 void op_imprimir_bases(FILE *arq_f, FILE *arq_p);
 
@@ -35,5 +35,9 @@ void op_gerar_particoes(FILE *arq_p);
 void op_intercalacao_otima(FILE *arq_p);
 
 void op_analise_experimental(FILE *arq_p);
+
+//PARTE 3
+//Usei o ponteiro de ponteiro (**arq) para poder abrir/fechar o arquivo se necessário
+void op_tabela_hash(FILE **arq_hash, int *M);
 
 #endif

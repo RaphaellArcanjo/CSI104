@@ -79,7 +79,7 @@ void criar_base_produto(FILE *out, int tam, int num_fornecedores){
     TProduto *p;
 
     for(int i=0;i<tam;i++) {
-        vet[i] = i+1;
+        vet[i] = i;
     }
 
     embaralha_produto(vet,tam);
@@ -116,8 +116,6 @@ void embaralha_produto(int *vet, int tam) {
 
     int tmp;
 
-    srand(time(NULL));
-
     int trocas = (tam*60)/100;
 
     for (int t = 0; t < trocas; t++) {
@@ -131,7 +129,7 @@ void embaralha_produto(int *vet, int tam) {
 
 void imprimir_base_produto(FILE *out){
 
-    printf("\Imprimindo a base de dados...\n");
+    printf("\nImprimindo a base de dados...\n");
     printf("**********************************************\n");
     rewind(out);
     TProduto *p;
